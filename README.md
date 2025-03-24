@@ -21,3 +21,7 @@
     ```
     pip install -r requirements.txt
     ```
+5. To run the flask app locally
+    ```
+    python app.py
+    ```
