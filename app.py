@@ -105,7 +105,7 @@ def view_data():
             cursor = conn.cursor()
             cursor.execute('''
                            SELECT a.job, c.name, IFNULL(b.Q1, 0), IFNULL(b.Q2, 0), IFNULL(b.Q3,0), IFNULL(b.Q4, 0)  FROM jobs a
-                           LEFT JOIN (
+                           RIGHT JOIN (
                                         SELECT job_id,
                                         (CASE WHEN (strftime('%m', datetime)+0)>=1 and (strftime('%m', datetime)+0) < 4 THEN count(id) END) Q1,
                                         (CASE WHEN (strftime('%m', datetime)+0)>=4 and (strftime('%m', datetime)+0) < 7 THEN count(id) END) Q2,
@@ -115,7 +115,7 @@ def view_data():
                                         FROM hired_employees WHERE (strftime('%Y', datetime)+0) = 2021 and (job_id is not null and department_id is not null)
                                         GROUP BY job_id, department_id) b ON a.id = b.job_id
                            LEFT JOIN departments as c on b.department_id = c.id
-                           GROUP BY a.job, c.name
+                           GROUP BY a.job, c.name ORDER BY name, a.job
                            
                            ''')
             records = cursor.fetchall()
